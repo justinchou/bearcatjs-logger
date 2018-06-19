@@ -1,88 +1,149 @@
-pomelo-logger
-========
+# bearcatjs-logger
 
-pomelo-logger is a [log4js](https://github.com/nomiddlename/log4js-node) wrapper for [pomelo](https://github.com/NetEase/pomelo) which provides some useful features.  
+Bearcatjs-logger Is Forked From Pomelo-logger, Is A [log4js](https://github.com/nomiddlename/log4js-node) Wrapper For [pomelo](https://github.com/NetEase/pomelo) Which Provides Some Useful Features.
+
+If You Use Pomelo, Please Use Pomelo-logger, It's Original.
 
 ## Installation
-```
-npm install pomelo-logger
+
+```bash
+npm install bearcatjs-logger
 ```
 
 ## Features
-### log prefix
-besides category, you can output prefix as you like in your log  
-prefix can be filename, serverId, serverType, host etc  
-to use this feature, you just pass prefix params to getLogger function  
-```
-var logger = require('pomelo-logger').getLogger(category, prefix1, prefix2, ...);
-```
- log output msg will output with prefix ahead   
 
-### get line number in debug
-when in debug environment, you may want to get the line number of the log  
-to use this feature, add this code   
+### Log Prefix
+
+Besides Category, You Can Output Prefix As You Like In Your Log, Prefix Can Be filename, serverId, serverType, host and etc. To Use This Feature, You Just Pass Prefix Params To getLogger Function.
+
+```js
+const Logger = require('bearcatjs-logger');
+Logger.configure({
+  "appenders": {
+    "console": {"type": "console"},
+  },
+  "categories": {"default": { "appenders": ["console"], "level": "ERROR" }},
+  "replaceConsole": true
+})
+const logger = Logger.getLogger(category, prefix1, prefix2, ...);
 ```
+
+Log Output Msg Will Output With Prefix Ahead
+
+### Get Line Number In Debug
+
+When In Debug Environment, You May Want To Get The Line Number Of The Log To Use This Feature, Add This Code.
+
+```js
 process.env.LOGGER_LINE = true;
 ```
 
-in pomelo, you just configure the log4js file and set **lineDebug** for true  
-```
+In Pomelo, You Just Configure The Log4js File And Set **lineDebug** For true.
+
+```json
 {
-  "appenders": [
-  ],
-
-  "levels": {
-  }, 
-
+  "...": "...",
   "replaceConsole": true,
 
   "lineDebug": true
 }
 ```
 
-### log raw messages
-in raw message mode, your log message will be simply your messages, no prefix and color format strings  
-to use this feature, add this code  
-```
+### Log Raw Messages
+
+In Raw Message Mode, Your Log Message Will Be Simply Your Messages, No Prefix And Color Format Strings To Use This Feature, Add This Code.
+
+```js
 process.env.RAW_MESSAGE = true;
 ```
 
-in pomelo, you just configure the log4js file and set **rawMessage** for true  
-```
+In Pomelo, You Just Configure The Log4js File And Set **rawMessage** For true.
+
+```json
 {
-  "appenders": [
-  ],
-
-  "levels": {
-  }, 
-
+  "...": "...",
   "replaceConsole": true,
 
   "rawMessage": true
 }
 ```
 
-### dynamic configure logger level
-in pomelo logger configuration file log4js.json, you can add reloadSecs option. The reloadSecs means reload logger configuration file every given time. For example
+### Dynamic Configure Logger Level
+
+In Pomelo Logger Configuration File log4js.json, You Can Add reloadSecs Option. The reloadSecs Means Reload Logger Configuration File Every Given Time. For Example:
+
+```json
+{"reloadSecs": 30}
 ```
-{
-	"reloadSecs": 30
-}
-```
-the above configuration means reload the configuration file every 30 seconds. You can dynamic change the logger level, but it does not support dynamiclly changing configuration of appenders.
+
+The Above Configuration Means Reload The Configuration File Every 30 Seconds. You Can Dynamic Change The Logger Level, But It Does Not Support Dynamiclly Changing Configuration Of Appenders.
 
 ## Example
-log.js
+
+> log4js.json
+
+```json
+{
+  "appenders": {
+    "console": {
+      "type": "console"
+    },
+    "rpc-log": {
+      "type": "file",
+      "filename": "./logs/rpc-log-${opts:serverId}.log",
+      "maxLogSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5,
+      "category": "rpc-log"
+    },
+    "rpc-debug": {
+      "type": "file",
+      "filename": "./logs/rpc-debug-${opts:serverId}.log",
+      "maxLogSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5,
+      "category": "rpc-debug"
+    }
+  },
+  "categories": {
+    "default": { "appenders": ["console"], "level": "DEBUG" },
+    "rpc-log": { "appenders": ["rpc-log"], "level": "ERROR" },
+    "rpc-debug": { "appenders": ["rpc-debug"], "level": "DEBUG" },
+  },
+  "replaceConsole": true,
+
+  "lineDebug": false
+}
 ```
-var logger = require('pomelo-logger').getLogger('log', __filename, process.pid);
+
+> log.js
+
+```js
+const Logger = require("..");
+const Config = require("./log4js.json");
+Logger.configure(Config, { serverId: process.pid });
+
+const rpcLog = Logger.getLogger("rpc-log", __filename, process.pid);
+const rpcDebug = Logger.getLogger("rpc-debug", __filename, process.pid);
 
 process.env.LOGGER_LINE = true;
-logger.info('test1');
-logger.warn('test2');
-logger.error('test3');
+
+rpcLog.info("test1");
+rpcLog.warn("test2");
+rpcLog.error("test3");
+
+rpcDebug.info("test1");
+rpcDebug.warn("test2");
+rpcDebug.error("test3");
+
 ```
 
 ## License
+
 (The MIT License)
 
 Copyright (c) 2012-2013 NetEase, Inc. and other contributors

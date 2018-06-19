@@ -1,12 +1,32 @@
 {
-    "name": "pomelo-logger",
-    "version": "0.1.7",
-    "private": false,
-    "dependencies": {
-        "log4js": "0.6.21"
-    },
-    "devDependencies": {
-        "should": ">=0.0.1",
-        "mocha": ">=0.0.1"
-    }
+  "name": "bearcatjs-logger",
+  "version": "1.0.2",
+  "private": false,
+  "dependencies": {
+    "log4js": "^2.9.0"
+  },
+  "devDependencies": {
+    "should": "^13.2.1",
+    "mocha": "^5.2.0"
+  },
+  "description": "forked from pomelo-logger, easy to use logger for nodejs",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justinchou/bearcatjs-logger.git"
+  },
+  "keywords": ["log", "nodejs"],
+  "author": "Justin Chou <zhou78620051@126.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/justinchou/bearcatjs-logger/issues"
+  },
+  "homepage": "https://github.com/justinchou/bearcatjs-logger#readme"
 }
