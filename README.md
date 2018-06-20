@@ -55,6 +55,7 @@ When In Debug Environment, You May Want To Get The Line Number, Filename, Method
 process.env.LOGGER_LINE = true;
 process.env.LOGGER_FILENAME = true;
 process.env.LOGGER_METHOD = true;
+process.env.LOGGER_PROCESS = true;
 ```
 
 Or, You Just Configure The Log4js File And Set **lineDebug**, **fileDebug**, **methodDebug** And/Or **processDebug** For true.
@@ -84,6 +85,7 @@ Sometimes, You Want `[]` Around Your Default Artributes, Sometimes Don't. So, Wi
   // This line
   "withoutBraces": false
 }
+```
 
 ### Log Raw Messages
 
@@ -104,6 +106,8 @@ Or, You Just Configure The Log4js File And Set **rawMessage** For true.
   "rawMessage": true
 }
 ```
+
+I Strongly Suggest That You Use This Feature During Production Mode.
 
 ### Dynamic Configure Logger Level
 
