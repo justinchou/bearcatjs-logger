@@ -78,14 +78,28 @@
   "categories": {
     "default": { "appenders": ["console"], "level": "DEBUG" },
     "con-log": { "appenders": ["con-log"], "level": "DEBUG" },
-    "rpc-log": { "appenders": ["rpc-log"], "level": "ERROR" },
+    "rpc-log": { "appenders": ["rpc-log", "console"], "level": "ERROR" },
     "forward-log": { "appenders": ["forward-log"], "level": "ERROR" },
-    "rpc-debug": { "appenders": ["rpc-debug"], "level": "DEBUG" },
+    "rpc-debug": { "appenders": ["rpc-debug", "console"], "level": "DEBUG" },
     "crash-log": { "appenders": ["crash-log"], "level": "DEBUG" },
-    "admin-log": { "appenders": ["admin-log"], "level": "DEBUG" },
+    "admin-log": { "appenders": ["admin-log", "console"], "level": "DEBUG" },
     "pomelo": { "appenders": ["pomelo"], "level": "DEBUG" }
   },
+
   "replaceConsole": true,
   
-  "lineDebug": false
+  "lineDebug": true,
+  "fileDebug": true,
+  "methodDebug": false,
+  "processDebug": false,
+
+  "reloadSecs": 5,
+  "reloadLevels": {
+    "rpc-log": "ERROR",
+    "rpc-debug": "ERROR"
+  },
+
+  "withoutBraces": true,
+
+  "pm2": true
 }
