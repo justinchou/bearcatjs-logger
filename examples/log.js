@@ -32,4 +32,7 @@ setInterval(() => {
 	adminLog.error('Admin Log - error');
 
 	logger.debug('Default Log With No Category. Not Suggested');
+	console.log('Original Console Log. Not Suggested');
+
+	logger.debug();
 }, 2e3);
