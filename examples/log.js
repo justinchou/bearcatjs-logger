@@ -20,6 +20,7 @@ setInterval(() => {
 	rpcLog.info('RPC Log - info');
 	rpcLog.warn('RPC Log - warn');
 	rpcLog.error('RPC Log - error');
+	console.log('rpcLog Level Is ', rpcLog.level());
 
 	rpcDebug.debug('RPC Debug Log - debug');
 	rpcDebug.info('RPC Debug Log - info');
@@ -33,6 +34,7 @@ setInterval(() => {
 
 	logger.debug('Default Log With No Category. Not Suggested');
 	console.log('Original Console Log. Not Suggested');
+	console.log('logger Level Is ', logger.level());
 
 	logger.debug();
 }, 2e3);
