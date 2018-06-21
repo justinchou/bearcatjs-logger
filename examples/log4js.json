@@ -1,0 +1,105 @@
+{
+  "appenders": {
+    "console": {
+      "type": "console"
+    },
+    "con-log": {
+      "type": "file",
+      "filename": "./logs/con-log-${opts:serverId}.log",
+      "pattern": "connector",
+      "maxLogSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5,
+      "category": "con-log"
+    },
+    "rpc-log": {
+      "type": "file",
+      "filename": "./logs/rpc-log-${opts:serverId}.log",
+      "maxLogSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5,
+      "category": "rpc-log"
+    },
+    "forward-log": {
+      "type": "file",
+      "filename": "./logs/forward-log-${opts:serverId}.log",
+      "maxLogSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5,
+      "category": "forward-log"
+    },
+    "rpc-debug": {
+      "type": "file",
+      "filename": "./logs/rpc-debug-${opts:serverId}.log",
+      "maxLogSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5,
+      "category": "rpc-debug"
+    },
+    "crash-log": {
+      "type": "file",
+      "filename": "./logs/crash.log",
+      "maxLogSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5,
+      "category": "crash-log"
+    },
+    "admin-log": {
+      "type": "file",
+      "filename": "./logs/admin.log",
+      "maxLogSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5,
+      "category": "admin-log"
+    },
+    "pomelo": {
+      "type": "file",
+      "filename": "./logs/pomelo.log",
+      "maxLogSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5,
+      "category": "pomelo"
+    }
+  },
+  "categories": {
+    "default": { "appenders": ["console"], "level": "DEBUG" },
+    "con-log": { "appenders": ["con-log"], "level": "DEBUG" },
+    "rpc-log": { "appenders": ["rpc-log", "console"], "level": "ERROR" },
+    "forward-log": { "appenders": ["forward-log"], "level": "ERROR" },
+    "rpc-debug": { "appenders": ["rpc-debug", "console"], "level": "DEBUG" },
+    "crash-log": { "appenders": ["crash-log"], "level": "DEBUG" },
+    "admin-log": { "appenders": ["admin-log", "console"], "level": "DEBUG" },
+    "pomelo": { "appenders": ["pomelo"], "level": "DEBUG" }
+  },
+
+  "replaceConsole": true,
+  
+  "lineDebug": true,
+  "fileDebug": true,
+  "methodDebug": false,
+  "processDebug": false,
+
+  "reloadSecs": 5,
+  "reloadLevels": {
+    "rpc-log": "ERROR",
+    "rpc-debug": "ERROR"
+  },
+
+  "withoutBraces": true,
+
+  "pm2": true
+}

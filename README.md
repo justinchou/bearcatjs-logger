@@ -1,57 +1,147 @@
-pomelo-logger
-========
+# bearcatjs-logger
 
-pomelo-logger is a [log4js](https://github.com/nomiddlename/log4js-node) wrapper for [pomelo](https://github.com/NetEase/pomelo) which provides some useful features.  
+BearcatJS-Logger Is Forked From Pomelo-Logger, Is A [Log4js](https://github.com/nomiddlename/log4js-node) Wrapper For [Pomelo](https://github.com/NetEase/pomelo) Which Provides Some Useful Features.
+
+If You Use Pomelo, Please Use Pomelo-logger, It's Original.
 
 ## Installation
-```
-npm install pomelo-logger
+
+```bash
+npm install bearcatjs-logger
 ```
 
 ## Features
-### log prefix
-besides category, you can output prefix as you like in your log  
-prefix can be filename, serverId, serverType, host etc  
-to use this feature, you just pass prefix params to getLogger function  
-```
-var logger = require('pomelo-logger').getLogger(category, prefix1, prefix2, ...);
-```
- log output msg will output with prefix ahead   
 
-### get line number in debug
-when in debug environment, you may want to get the line number of the log  
-to use this feature, add this code   
-```
-process.env.LOGGER_LINE = true;
+### Log Prefix
+
+Besides Category, You Can Output Prefix As You Like In Your Log, Prefix Can Be filename, serverId, serverType, host and etc. To Use This Feature, You Just Pass Prefix Params To getLogger Function.
+
+```js
+const Logger = require('bearcatjs-logger');
+// More Config You Can Find Here: https://log4js-node.github.io/log4js-node/index.html
+Logger.configure({
+  "appenders": {
+    "console": {"type": "console"},
+  },
+  "categories": {"default": { "appenders": ["console"], "level": "ERROR" }},
+  "replaceConsole": true
+})
+const logger = Logger.getLogger(category, prefix1, prefix2, ...);
 ```
 
-in pomelo, you just configure the log4js file and set **lineDebug** for true  
-```
+Log Output Msg Will Output With Prefix Ahead.
+
+### Replace Console
+
+If You Used To Use `console.log` In The Old Code, What You Need To Is Just Config **replaceConsole** Option And Default Category Like This:
+
+```json
 {
-  "appenders": [
-  ],
-
-  "levels": {
-  }, 
-
-  "replaceConsole": true,
-
-  "lineDebug": true
+  "appenders": {
+    "console": {"type": "console"},
+  },
+  "categories": {"default": { "appenders": ["console"], "level": "ERROR" }},
+  "replaceConsole": true
 }
 ```
 
-## Example
-log.js
-```
-var logger = require('pomelo-logger').getLogger('log', __filename, process.pid);
+Then The Old Console Is Injected With BearcatJS-Logger, If You Want It Redirected Into File, Just Redefine The 'console' Config Block In Appenders.
 
+### Get Line Number, FileName And/Or Method Name In Debug
+
+When In Debug Environment, You May Want To Get The Line Number, Filename, Method And/Or Process Number Name Of The Log To Use This Feature, Add This Code.
+
+```js
 process.env.LOGGER_LINE = true;
-logger.info('test1');
-logger.warn('test2');
-logger.error('test3');
+process.env.LOGGER_FILENAME = true;
+process.env.LOGGER_METHOD = true;
+process.env.LOGGER_PROCESS = true;
 ```
+
+Or, You Just Configure The Log4js File And Set **lineDebug**, **fileDebug**, **methodDebug** And/Or **processDebug** For true.
+
+```json
+{
+  "...": "...",
+  "replaceConsole": true,
+
+  // These lines
+  "lineDebug": true,
+  "fileDebug": true,
+  "methodDebug": false,
+  "processDebug": true
+}
+```
+
+### Config Style
+
+Sometimes, You Want `[]` Around Your Default Artributes, Sometimes Don't. So, With **withoutBraces** You Can Easilly Control This Feature.
+
+```json
+{
+  "...": "...",
+  "replaceConsole": true,
+
+  // This line
+  "withoutBraces": false
+}
+```
+
+### Log Raw Messages
+
+In Raw Message Mode, Your Log Message Will Be Simply Your Messages, No Prefix And Color Format Strings To Use This Feature, Add This Code.
+
+```js
+process.env.RAW_MESSAGE = true;
+```
+
+Or, You Just Configure The Log4js File And Set **rawMessage** For true.
+
+```json
+{
+  "...": "...",
+  "replaceConsole": true,
+
+  // This line
+  "rawMessage": true
+}
+```
+
+I Strongly Suggest That You Use This Feature During Production Mode.
+
+### Dynamic Configure Logger Level
+
+In Logger Configuration File log4js.json, You Can Add **reloadSecs** Option. The reloadSecs Means Reload Logger Configuration File Every Given Time.
+
+The Reload Levels Are Configured In The reloadLevels Option, The Key Is The Category Name Matches One Of Items In Categories Block, And The Value Is Level Such As 'DEBUG', 'INFO', 'ERROR' Or Fourth...
+
+The **rawMessage**, **replaceConsole**, **withoutBraces**, **lineDebug**, **fileDebug**, **methodDebug**, **processDebug** Are Also Reconfigured When Reload.
+
+For Example:
+
+```json
+{
+  "...": "...",
+  "replaceConsole": true,
+
+  // These lines
+  "reloadSecs": 30,
+  "reloadLevels": {
+    "categoryName": "DEBUG"
+  }
+}
+```
+
+The Above Configuration Means Reload The Configuration File Every 30 Seconds. You Can Dynamic Change The Logger Level, But It Does Not Support Dynamiclly Changing Configuration Of Appenders.
+
+**Note: You Need `Logger.configure(filepath)` With Filename And It's Absolute Path As First Param, To Use This Feature.**
+
+## Example
+
+See Code In Directory 'examples'.
 
 ## License
+
 (The MIT License)
 
 Copyright (c) 2012-2013 NetEase, Inc. and other contributors
