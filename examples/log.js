@@ -9,7 +9,7 @@ Logger.configure(Path.join(__dirname, './log4js.json'), {
 
 const rpcLog = Logger.getLogger('rpc-log');
 const rpcDebug = Logger.getLogger('rpc-debug');
-const adminLog = Logger.getLogger('admin-log');
+const adminLog = Logger.getLogger('admin-log', "Admin Log Info", "Hahha");
 const logger = Logger.getLogger();
 
 // This Overwrite `lineDebug = true` In Config.

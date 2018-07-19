@@ -99,7 +99,7 @@
     "rpc-debug": "ERROR"
   },
 
-  "withoutBraces": true,
+  "withoutBraces": false,
 
   "pm2": true
 }
