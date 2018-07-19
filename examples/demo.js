@@ -3,13 +3,13 @@ const Logger = require('../index');
 
 // Using File Path, Support Auto Reload Config File
 const Path = require('path');
-Logger.configure(Path.join(__dirname, './log4js.json'), {
+Logger.configure(Path.join(__dirname, './logger.json'), {
 	serverId: process.pid
 });
 
 const rpcLog = Logger.getLogger('rpc-log');
-const rpcDebug = Logger.getLogger('rpc-debug');
-const adminLog = Logger.getLogger('admin-log', "Admin Log Info", "Hahha");
+const rpcDebug = Logger.getLogger('rpc-debug', 'debug prefix', 'prefix again');
+const logstash = Logger.getLogger('logstash');
 const logger = Logger.getLogger();
 
 // This Overwrite `lineDebug = true` In Config.
@@ -26,11 +26,13 @@ setInterval(() => {
 	rpcDebug.info('RPC Debug Log - info');
 	rpcDebug.warn('RPC Debug Log - warn');
 	rpcDebug.error('RPC Debug Log - error');
+	console.log('rpcDebug Level Is ', rpcDebug.level());
 
-	adminLog.debug('Admin Log - debug');
-	adminLog.info('Admin Log - info');
-	adminLog.warn('Admin Log - warn');
-	adminLog.error('Admin Log - error');
+	logstash.debug('Logstash Log - debug');
+	logstash.info('Logstash Log - info');
+	logstash.warn('Logstash Log - warn');
+	logstash.error('Logstash Log - error');
+	console.log('logstash Level Is ', logstash.level());
 
 	logger.debug('Default Log With No Category. Not Suggested');
 	console.log('Original Console Log. Not Suggested');

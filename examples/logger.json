@@ -1,0 +1,74 @@
+{
+  "appenders": {
+    "console": {
+      "type": "console"
+    },
+    "logstash-http": {
+      "type": "@log4js-node/logstash-http",
+      "url": "http://127.0.0.1:9601",
+      "application": "logstash-log4js-http",
+      "logType": "application",
+      "logChannel": "node"
+    },
+    "logstash-udp": {
+      "type": "@log4js-node/logstashudp",
+      "host": "127.0.0.1",
+      "port": "9602",
+      "application": "logstash-log4js-udp",
+      "logType": "application",
+      "logChannel": "node"
+    },
+    "rpc-log": {
+      "type": "dateFile",
+      "filename": "./logs/rpc-log-${opts:serverId}.log",
+      "compress": true,
+      "pattern": ".yyyy-MM-dd",
+      "keepFileExt": true,
+      "layout": {"type": "basic"},
+      "daysToKeep": 30
+    },
+    "rpc-debug": {
+      "type": "file",
+      "filename": "./logs/rpc-debug-${opts:serverId}.log",
+      "compress": true,
+      "maxLogSize": 1048576,
+      "backups": 5,
+      "keepFileExt": true,
+      "layout": {"type": "basic"}
+    },
+    "pomelo": {
+      "type": "file",
+      "filename": "./logs/pomelo.log",
+      "maxLogSize": 1048576,
+      "layout": {
+        "type": "basic"
+      },
+      "backups": 5,
+      "category": "pomelo"
+    }
+  },
+  "categories": {
+    "default": { "appenders": ["console"], "level": "DEBUG" },
+    "logstash": { "appenders": ["logstash-http", "logstash-udp"], "level": "DEBUG" },
+    "rpc-log": { "appenders": ["rpc-log", "console"], "level": "ERROR" },
+    "rpc-debug": { "appenders": ["rpc-debug", "console"], "level": "DEBUG" },
+    "pomelo": { "appenders": ["pomelo"], "level": "DEBUG" }
+  },
+
+  "replaceConsole": true,
+  
+  "lineDebug": true,
+  "fileDebug": true,
+  "methodDebug": false,
+  "processDebug": false,
+
+  "reloadSecs": 5,
+  "reloadLevels": {
+    "rpc-log": "ERROR",
+    "rpc-debug": "ERROR"
+  },
+
+  "withoutBraces": false,
+
+  "pm2": true
+}
